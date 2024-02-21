@@ -23,6 +23,20 @@ function App() {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const onTitleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    id: string,
+  ) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.title = event.target.value;
+      }
+      return todo;
+    });
+
+    setTodos(newTodos);
+  };
+
   return (
     <>
       {todos.map((todo) => (
@@ -33,7 +47,12 @@ function App() {
             <MenuItem value={ToDoState.scheduled}>Scheduled</MenuItem>
             <MenuItem value={ToDoState.done}>Done</MenuItem>
           </Select>
-          <TextField defaultValue={todo.title} />
+          <TextField
+            value={todo.title}
+            onChange={(event) => {
+              onTitleChange(event, todo.id);
+            }}
+          />
           <IconButton
             onClick={() => {
               onDelete(todo.id);
