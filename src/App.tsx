@@ -1,15 +1,6 @@
-import { Delete } from "@mui/icons-material";
-import {
-  Button,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { Button, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
+import { TodoRow } from "./components/todoRow";
 import { ToDo, ToDoState } from "./data/todo";
 
 const initialTodos: ToDo[] = [
@@ -63,32 +54,12 @@ function App() {
   return (
     <>
       {todos.map((todo) => (
-        <Stack direction="row">
-          <InputLabel>State</InputLabel>
-          <Select
-            value={todo.state}
-            onChange={(event) => {
-              onStateChange(event, todo.id);
-            }}
-          >
-            <MenuItem value={ToDoState.todo}>To Do</MenuItem>
-            <MenuItem value={ToDoState.scheduled}>Scheduled</MenuItem>
-            <MenuItem value={ToDoState.done}>Done</MenuItem>
-          </Select>
-          <TextField
-            value={todo.title}
-            onChange={(event) => {
-              onTitleChange(event, todo.id);
-            }}
-          />
-          <IconButton
-            onClick={() => {
-              onDelete(todo.id);
-            }}
-          >
-            <Delete />
-          </IconButton>
-        </Stack>
+        <TodoRow
+          todo={todo}
+          onDelete={onDelete}
+          onStateChange={onStateChange}
+          onTitleChange={onTitleChange}
+        />
       ))}
       <Button onClick={onAdd}>Add To Do</Button>
     </>
