@@ -1,25 +1,49 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Delete } from "@mui/icons-material";
+import {
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { useState } from "react";
+import { ToDo, ToDoState } from "./data/todo";
+
+const initialTodos: ToDo[] = [
+  { id: "1", title: "Write Test", state: ToDoState.todo },
+  { id: "2", title: "Write Component", state: ToDoState.scheduled },
+  { id: "3", title: "Test Component", state: ToDoState.done },
+];
 
 function App() {
+  const [todos, setTodos] = useState(initialTodos);
+
+  const onDelete = (id: string) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {todos.map((todo) => (
+        <Stack direction="row">
+          <InputLabel>State</InputLabel>
+          <Select value={todo.state}>
+            <MenuItem value={ToDoState.todo}>To Do</MenuItem>
+            <MenuItem value={ToDoState.scheduled}>Scheduled</MenuItem>
+            <MenuItem value={ToDoState.done}>Done</MenuItem>
+          </Select>
+          <TextField defaultValue={todo.title} />
+          <IconButton
+            onClick={() => {
+              onDelete(todo.id);
+            }}
+          >
+            <Delete />
+          </IconButton>
+        </Stack>
+      ))}
+    </>
   );
 }
 
