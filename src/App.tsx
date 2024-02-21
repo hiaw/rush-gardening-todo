@@ -1,12 +1,38 @@
 import { Button, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
+import { TodoMap } from "./components/todoMap";
 import { TodoRow } from "./components/todoRow";
 import { ToDo, ToDoState } from "./data/todo";
 
 const initialTodos: ToDo[] = [
-  { id: "1", title: "Write Test", state: ToDoState.todo },
-  { id: "2", title: "Write Component", state: ToDoState.scheduled },
-  { id: "3", title: "Test Component", state: ToDoState.done },
+  {
+    id: "1",
+    title: "Write Test",
+    state: ToDoState.todo,
+    location: {
+      lat: -43.53171844691778,
+      lng: 172.5660234539841,
+    },
+  },
+  {
+    id: "2",
+    title: "Write Component",
+    state: ToDoState.scheduled,
+
+    location: {
+      lat: -43.531718446,
+      lng: 172.5660234539,
+    },
+  },
+  {
+    id: "3",
+    title: "Test Component",
+    state: ToDoState.done,
+    location: {
+      lat: -43.5312,
+      lng: 172.5663,
+    },
+  },
 ];
 
 function App() {
@@ -62,6 +88,7 @@ function App() {
         />
       ))}
       <Button onClick={onAdd}>Add To Do</Button>
+      <TodoMap todos={todos} />
     </>
   );
 }
