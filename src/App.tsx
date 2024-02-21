@@ -1,39 +1,16 @@
-import { Button, SelectChangeEvent } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  SelectChangeEvent,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
+import { TodoHeader } from "./components/todoHeader";
 import { TodoMap } from "./components/todoMap";
 import { TodoRow } from "./components/todoRow";
-import { ToDo, ToDoState } from "./data/todo";
-
-const initialTodos: ToDo[] = [
-  {
-    id: "1",
-    title: "Write Test",
-    state: ToDoState.todo,
-    location: {
-      lat: -43.53171844691778,
-      lng: 172.5660234539841,
-    },
-  },
-  {
-    id: "2",
-    title: "Write Component",
-    state: ToDoState.scheduled,
-
-    location: {
-      lat: -43.531718446,
-      lng: 172.5660234539,
-    },
-  },
-  {
-    id: "3",
-    title: "Test Component",
-    state: ToDoState.done,
-    location: {
-      lat: -43.5312,
-      lng: 172.5663,
-    },
-  },
-];
+import { initialTodos, ToDoState } from "./data/todo";
 
 function App() {
   const [todos, setTodos] = useState(initialTodos);
@@ -78,18 +55,30 @@ function App() {
   };
 
   return (
-    <>
-      {todos.map((todo) => (
-        <TodoRow
-          todo={todo}
-          onDelete={onDelete}
-          onStateChange={onStateChange}
-          onTitleChange={onTitleChange}
-        />
-      ))}
-      <Button onClick={onAdd}>Add To Do</Button>
-      <TodoMap todos={todos} />
-    </>
+    <Container maxWidth="sm">
+      <Box border="solid" m={2} p={2}>
+        <Typography variant="h4" textAlign="center">
+          Rush Gardening To Do App
+        </Typography>
+        <Stack spacing={3}>
+          <Stack spacing={1}>
+            <TodoHeader />
+            {todos.map((todo) => (
+              <TodoRow
+                todo={todo}
+                onDelete={onDelete}
+                onStateChange={onStateChange}
+                onTitleChange={onTitleChange}
+              />
+            ))}
+          </Stack>
+          <Button variant="outlined" onClick={onAdd}>
+            Add To Do
+          </Button>
+          <TodoMap todos={todos} />
+        </Stack>
+      </Box>
+    </Container>
   );
 }
 
