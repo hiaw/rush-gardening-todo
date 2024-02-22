@@ -43,6 +43,40 @@ function App() {
     setTodos(newTodos);
   };
 
+  const onLatChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    id: string,
+  ) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.location = {
+          lat: Number(event.target.value),
+          lng: todo.location?.lng || 0,
+        };
+      }
+      return todo;
+    });
+
+    setTodos(newTodos);
+  };
+
+  const onLngChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    id: string,
+  ) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.location = {
+          lat: todo.location?.lat || 0,
+          lng: Number(event.target.value),
+        };
+      }
+      return todo;
+    });
+
+    setTodos(newTodos);
+  };
+
   const onStateChange = (event: SelectChangeEvent<ToDoState>, id: string) => {
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -55,7 +89,7 @@ function App() {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Box border="solid" m={2} p={2}>
         <Typography variant="h4" textAlign="center">
           Rush Gardening To Do App
@@ -67,6 +101,8 @@ function App() {
               <TodoRow
                 todo={todo}
                 onDelete={onDelete}
+                onLatChange={onLatChange}
+                onLngChange={onLngChange}
                 onStateChange={onStateChange}
                 onTitleChange={onTitleChange}
               />
