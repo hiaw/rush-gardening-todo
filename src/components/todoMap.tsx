@@ -4,7 +4,7 @@ import {
   Polyline,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import { ToDo, Location } from "../data/todo";
+import { ToDo, Location, ToDoState } from "../data/todo";
 import salesman from "@wemap/salesman.js";
 import { useEffect, useState } from "react";
 import { googleMapsApiKey } from "../data/apiKey";
@@ -32,9 +32,14 @@ export const TodoMap = ({ todos }: TodoMapProps) => {
   });
 
   useEffect(() => {
-    const points = todos.map((todo) => {
+    const includedTodos = todos.filter((todo) => {
+      return todo.state === ToDoState.scheduled;
+    });
+
+    const points = includedTodos.map((todo) => {
       return new salesman.Point(todo.location?.lat!, todo.location?.lng!);
     });
+
     const solution = salesman.solve(points);
 
     setSortedLocation(
@@ -55,10 +60,10 @@ export const TodoMap = ({ todos }: TodoMapProps) => {
         map.fitBounds(bounds);
       }}
     >
-      {todos.map((todo) => (
+      {sortedLocation.map((location) => (
         <Marker
-          key={todo.id}
-          position={{ lat: todo.location?.lat!, lng: todo.location?.lng! }}
+          key={`${location.lat}-${location.lng}`}
+          position={{ lat: location.lat, lng: location.lng }}
         />
       ))}
       <Polyline path={sortedLocation} />
